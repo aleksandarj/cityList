@@ -143,7 +143,15 @@ extension CityListViewController: UITableViewDelegate {
 extension CityListViewController: UITableViewDataSource {
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 1
+        if self.cities.count > 0 {
+            TableViewHelpers.setRowsHidden(false, tableView: tableView, text: "")
+            return 1
+        } else {
+            TableViewHelpers.setRowsHidden(true,
+                tableView: tableView,
+                text: NSLocalizedString("No cities added\nadd cities by pressing on\nthe top plus button", comment: ""))
+            return 0
+        }
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

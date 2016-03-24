@@ -48,8 +48,10 @@ class NewCityViewController: BaseViewController {
     
     private func setupSearchField() {
         searchField = UITextField()
+        searchField.returnKeyType = UIReturnKeyType.Done
+        searchField.borderStyle = UITextBorderStyle.Line
         searchField.textAlignment = NSTextAlignment.Center
-        searchField.placeholder = NSLocalizedString("city name (min 3 letters search)", comment: "")
+        searchField.placeholder = NSLocalizedString("city name search field", comment: "")
         searchField.delegate = self
         self.view.addSubview(searchField)
         
@@ -103,10 +105,10 @@ extension NewCityViewController: NewCityPresenterDelegate {
         forString string: String,
         error: NSError?) {
         
+            self.cities = [City]()
+            
             if let newCities = cities where error == nil {
                 self.cities = newCities
-            } else {
-                self.cities = [City]()
             }
             
             self.tableView.reloadData()
@@ -140,7 +142,15 @@ extension NewCityViewController: UITableViewDelegate {
 extension NewCityViewController: UITableViewDataSource {
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 1
+        if self.cities.count > 0 {
+            TableViewHelpers.setRowsHidden(false, tableView: tableView, text: "")
+            return 1
+        } else {
+            TableViewHelpers.setRowsHidden(true,
+                tableView: tableView,
+                text: NSLocalizedString("No cities found\nenter search text to find cities\n(enter minimum 3 letters to search", comment: ""))
+            return 0
+        }
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
