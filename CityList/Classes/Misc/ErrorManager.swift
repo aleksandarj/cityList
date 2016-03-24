@@ -3,7 +3,7 @@ import UIKit
 import AFNetworking
 
 struct ErrorStrings {
-
+    //TODO: define specific error strings if any
 }
 
 class ErrorManager: NSObject {
@@ -35,6 +35,7 @@ class ErrorManager: NSObject {
         if let responseObject = responseObject as? [String : AnyObject] {
             if let errorString = responseObject["error"] as? String {
                 switch errorString {
+                    //TODO: handle specific errors if any
                 default:
                     break
                 }
