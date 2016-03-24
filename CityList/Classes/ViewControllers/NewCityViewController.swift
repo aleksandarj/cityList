@@ -130,9 +130,10 @@ extension NewCityViewController: UITableViewDelegate {
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         if indexPath.row < cities.count {
-            MBProgressHUD.showHUDAddedTo(self.view, animated: true)
-            
             let city = cities[indexPath.row]
+            if city.alreadyAdded { return }
+            
+            MBProgressHUD.showHUDAddedTo(self.view, animated: true)
             mPresenter.addCityForWeatherList(city)
         }
     }
@@ -159,8 +160,17 @@ extension NewCityViewController: UITableViewDataSource {
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier(cid)
+        cell?.selectionStyle = UITableViewCellSelectionStyle.None
+        cell?.textLabel?.textColor = UIColor.blackColor()
+        
         let city = cities[indexPath.row]
-        cell?.textLabel?.text = city.name!
+        var text = city.name!
+        
+        if city.alreadyAdded {
+            text = "\(city.name!) (\(NSLocalizedString("Already added", comment: "")))"
+            cell?.textLabel?.textColor = UIColor.darkGrayColor()
+        }
+        cell?.textLabel?.text = text
         
         return cell!
     }

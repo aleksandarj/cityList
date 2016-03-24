@@ -17,8 +17,18 @@ class NewCityPresenter: NewCityPresenterProtocol {
         self.weatherOperation?.cancel()
         self.weatherOperation = openWeatherProvider.weatherByName(string) { [weak self] (result, error, success) -> Void in
             if let weakself = self {
-                if let cities = result where success && error == nil {
-                    weakself.delegate?.newCityPresenter(weakself, didGetCities: cities, forString: string, error: nil)
+                if var newCities = result where success && error == nil {
+                    weakself.cityProvider.getAllCities({ (result, error, success) -> Void in
+                        if let oldCities = result where success && error == nil {
+                            for city in oldCities {
+                                if let i = newCities.indexOf({$0.openWeatherId == city.openWeatherId}) {
+                                    newCities[i].alreadyAdded = true
+                                }
+                            }
+                        }
+                        
+                        weakself.delegate?.newCityPresenter(weakself, didGetCities: newCities, forString: string, error: nil)
+                    })
                 } else {
                     weakself.delegate?.newCityPresenter(weakself, didGetCities: nil, forString: string, error: error)
                 }

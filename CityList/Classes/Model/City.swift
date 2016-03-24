@@ -7,6 +7,7 @@ class City: NSObject, NSCoding {
     var currentTemperature: Float?
     var currentHumidity: Float?
     var weatherDescription: String?
+    var alreadyAdded = false
     
     required init(openWeatherId: String,
         name: String,
