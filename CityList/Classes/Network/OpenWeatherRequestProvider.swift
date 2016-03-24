@@ -45,6 +45,8 @@ class OpenWeatherRequestProvider: OpenWeatherRequestProviderProtocol {
             })
         }
         
+        callback(result: nil, error: nil, success: false)
+        
         return nil
     }
     
@@ -78,6 +80,8 @@ class OpenWeatherRequestProvider: OpenWeatherRequestProviderProtocol {
                     callback(result: nil, error: error, success: false)
             })
         }
+        
+        callback(result: nil, error: nil, success: false)
         
         return nil
     }

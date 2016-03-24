@@ -19,6 +19,7 @@
 		DC128D8E1CA4128900DA196C /* CityDetailsPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC128D8D1CA4128900DA196C /* CityDetailsPresenter.swift */; };
 		DC128D901CA4129500DA196C /* CityDetailsPresenterDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC128D8F1CA4129500DA196C /* CityDetailsPresenterDelegate.swift */; };
 		DC128D921CA4158C00DA196C /* MainAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC128D911CA4158C00DA196C /* MainAssembly.swift */; };
+		DC128D961CA423C800DA196C /* TableViewHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC128D951CA423C800DA196C /* TableViewHelpers.swift */; };
 		DC6B10271CA16B5800CC2AED /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC6B10261CA16B5800CC2AED /* AppDelegate.swift */; };
 		DC6B102E1CA16B5800CC2AED /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DC6B102D1CA16B5800CC2AED /* Assets.xcassets */; };
 		DC6B10411CA16C2400CC2AED /* CityListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC6B10401CA16C2400CC2AED /* CityListViewController.swift */; };
@@ -51,6 +52,7 @@
 		DC128D8D1CA4128900DA196C /* CityDetailsPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CityDetailsPresenter.swift; sourceTree = "<group>"; };
 		DC128D8F1CA4129500DA196C /* CityDetailsPresenterDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CityDetailsPresenterDelegate.swift; sourceTree = "<group>"; };
 		DC128D911CA4158C00DA196C /* MainAssembly.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainAssembly.swift; sourceTree = "<group>"; };
+		DC128D951CA423C800DA196C /* TableViewHelpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewHelpers.swift; sourceTree = "<group>"; };
 		DC6B10231CA16B5800CC2AED /* CityList.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CityList.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DC6B10261CA16B5800CC2AED /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DC6B102D1CA16B5800CC2AED /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -115,6 +117,14 @@
 			name = Protocols;
 			sourceTree = "<group>";
 		};
+		DC128D941CA423BE00DA196C /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				DC128D951CA423C800DA196C /* TableViewHelpers.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
 		DC6B101A1CA16B5800CC2AED = {
 			isa = PBXGroup;
 			children = (
@@ -148,6 +158,7 @@
 		DC6B10381CA16BE700CC2AED /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				DC128D941CA423BE00DA196C /* Utils */,
 				DC6B103A1CA16BE700CC2AED /* Model */,
 				DC6B10391CA16BE700CC2AED /* Misc */,
 				DC6B103B1CA16BE700CC2AED /* Network */,
@@ -382,6 +393,7 @@
 				DC128D881CA3FEF500DA196C /* NewCityPresenterDelegate.swift in Sources */,
 				DC6B10501CA1732000CC2AED /* CityUserDefaultsProvider.swift in Sources */,
 				DC6B10451CA16C3B00CC2AED /* CityListPresenter.swift in Sources */,
+				DC128D961CA423C800DA196C /* TableViewHelpers.swift in Sources */,
 				DC6B10581CA17B2400CC2AED /* OpenWeatherRequestProvider.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
