@@ -50,9 +50,20 @@ class OpenWeatherRequestProvider: OpenWeatherRequestProviderProtocol {
         return nil
     }
     
+    private func removeSpecialCharsFromString(text: String) -> String {
+        let okayChars : Set<Character> =
+        Set("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLKMNOPQRSTUVWXYZ1234567890".characters)
+        return String(text.characters.filter {okayChars.contains($0) })
+    }
+    
     func weatherByName(name: String, callback: CitiesResultBlock) -> AFHTTPRequestOperation? {
-        if name.characters.count > 2 {
-            let endpoint = String(format: Constants.Network.find, arguments: [name])
+        // for some reason open weather doesn't accept white spaces even when encoded with url encoding (%20 used)
+        // just in case i trimm the search keyword from all the special characters
+
+        let trimmedName = removeSpecialCharsFromString(name)
+        
+        if trimmedName.characters.count > 2 {
+            let endpoint = String(format: Constants.Network.find, arguments: [trimmedName])
             let url = networkDatasource.addAppIdToUrlString(endpoint)
             
             return networkDatasource.GET(url,
