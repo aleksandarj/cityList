@@ -108,7 +108,7 @@ extension CityListViewController: CityListPresenterDelegate {
         tableView.pullToRefreshView?.stopAnimating()
         
         if let newCities = cities where error == nil {
-            self.cities = newCities
+            mPresenter.updateWeather(forCities: &self.cities, withWeatherFromCities: newCities)
             self.tableView.reloadData()
         }
     }

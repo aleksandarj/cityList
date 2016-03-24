@@ -46,6 +46,16 @@ class CityListPresenter: CityListPresenterProtocol {
         }
     }
     
+    func updateWeather(inout forCities cities: [City], withWeatherFromCities weatherCities: [City]) {
+        for city in cities {
+            if let i = weatherCities.indexOf({$0.openWeatherId == city.openWeatherId}) {
+                let filteredCity = weatherCities[i]
+                city.currentTemperature = filteredCity.currentTemperature
+                city.currentHumidity = filteredCity.currentHumidity
+                city.weatherDescription = filteredCity.weatherDescription
+            }
+        }
+    }
     
     func attach(delegate: CityListPresenterDelegate?) {
         self.delegate = delegate
