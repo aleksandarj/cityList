@@ -8,6 +8,8 @@ typealias APICallback = (error: NSError?) -> ()
 class NetworkDatasource: NSObject {
     
     private let manager: AFHTTPRequestOperationManager
+    private let errorHandler = MainAssembly.sharedInstance.errorHandler()
+    
     static let sharedInstance = NetworkDatasource()
     
     override init() {
@@ -32,9 +34,9 @@ class NetworkDatasource: NSObject {
                     print("success GET:\(endpoint) P:\(responseObject)")
                     success(operation: operation, responseObject: responseObject)
                 },
-                failure: { (operation: AFHTTPRequestOperation!,
+                failure: { [weak self] (operation: AFHTTPRequestOperation!,
                     error: NSError!) in
-                    ErrorManager.handleError(error,
+                    self?.errorHandler.handleError(error,
                         responseObject: operation.responseObject,
                         operationResponse: operation.response)
                     print("fail GET:\(endpoint) P:\(error)")
@@ -55,9 +57,9 @@ class NetworkDatasource: NSObject {
                     print("success POST:\(endpoint) P:\(responseObject)")
                     success(operation: operation, responseObject: responseObject)
                 },
-                failure: { (operation: AFHTTPRequestOperation!,
+                failure: { [weak self] (operation: AFHTTPRequestOperation!,
                     error: NSError!) in
-                    ErrorManager.handleError(error,
+                    self?.errorHandler.handleError(error,
                         responseObject: operation.responseObject,
                         operationResponse: operation.response)
                     print("fail POST:\(endpoint) P:\(error)")
@@ -75,9 +77,9 @@ class NetworkDatasource: NSObject {
                     responseObject: AnyObject!) in
                     success(operation: operation, responseObject: responseObject)
                 },
-                failure: { (operation: AFHTTPRequestOperation!,
+                failure: { [weak self] (operation: AFHTTPRequestOperation!,
                     error: NSError!) in
-                    ErrorManager.handleError(error,
+                    self?.errorHandler.handleError(error,
                         responseObject: operation.responseObject,
                         operationResponse: operation.response)
                     print("fail PUT:\(endpoint) P:\(error) headers \(operation.request.allHTTPHeaderFields)")
@@ -95,9 +97,9 @@ class NetworkDatasource: NSObject {
                     responseObject: AnyObject!) in
                     success(operation: operation, responseObject: responseObject)
                 },
-                failure: { (operation: AFHTTPRequestOperation!,
+                failure: { [weak self] (operation: AFHTTPRequestOperation!,
                     error: NSError!) in
-                    ErrorManager.handleError(error,
+                    self?.errorHandler.handleError(error,
                         responseObject: operation.responseObject,
                         operationResponse: operation.response)
                     print("fail DELETE:\(endpoint) P:\(error)")

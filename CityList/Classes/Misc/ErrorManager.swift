@@ -27,7 +27,7 @@ class ErrorManager: NSObject {
         reachabilityManager.startMonitoring()
     }
     
-    static func handleError(error: NSError, responseObject: AnyObject?, operationResponse: NSHTTPURLResponse!) {
+    func handleError(error: NSError, responseObject: AnyObject?, operationResponse: NSHTTPURLResponse!) {
         if operationResponse == nil {
             return
         }

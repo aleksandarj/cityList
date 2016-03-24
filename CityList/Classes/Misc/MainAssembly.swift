@@ -4,6 +4,10 @@ class MainAssembly: NSObject {
     
     static let sharedInstance = MainAssembly()
     
+    func errorHandler() -> ErrorManager {
+        return ErrorManager.sharedInstance
+    }
+    
     // Data Providers
     
     func networkDatasource() -> NetworkDatasource {
