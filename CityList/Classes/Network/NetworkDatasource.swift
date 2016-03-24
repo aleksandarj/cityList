@@ -16,7 +16,6 @@ class NetworkDatasource: NSObject {
         let baseURL = NSURL(string: Constants.Network.baseUrl)
         manager = AFHTTPRequestOperationManager(baseURL: baseURL)
         manager.responseSerializer = AFJSONResponseSerializer()
-        manager.responseSerializer.acceptableContentTypes?.insert("text/html")
         manager.requestSerializer = AFJSONRequestSerializer()
         manager.requestSerializer.timeoutInterval = 30
         
