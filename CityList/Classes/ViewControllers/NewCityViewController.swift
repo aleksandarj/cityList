@@ -3,7 +3,7 @@ import MBProgressHUD
 
 class NewCityViewController: BaseViewController {
     
-    private var mPresenter: NewCityPresenterProtocol
+    private var presenter: NewCityPresenterProtocol
     private var cities = [City]()
     
     private let cid = "cityCellIdentifier"
@@ -11,7 +11,7 @@ class NewCityViewController: BaseViewController {
     private var searchField = UITextField()
     
     init(presenter: NewCityPresenterProtocol) {
-        mPresenter = presenter
+        self.presenter = presenter
         
         super.init(nibName: nil, bundle: nil)
     }
@@ -29,13 +29,13 @@ class NewCityViewController: BaseViewController {
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        mPresenter.attach(self)
+        presenter.attach(self)
     }
     
     override func viewDidDisappear(animated: Bool) {
         super.viewDidDisappear(animated)
         
-        mPresenter.attach(nil)
+        presenter.attach(nil)
     }
     
     private func setupViews() {
@@ -81,37 +81,34 @@ class NewCityViewController: BaseViewController {
     }
     
     func searchCities(string: String) {
-        mPresenter.getCitiesForString(string)
+        presenter.getCitiesForString(string)
     }
 }
 
 extension NewCityViewController: NewCityPresenterDelegate {
     
-    func newCityPresenter(presenter: NewCityPresenterProtocol,
-        didAddCity city: City,
-        error: NSError?) {
-        
-            MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
-            
-            if error == nil {
-                self.searchField.text = nil
-                self.cities = [City]()
-                self.tableView.reloadData()
-            }
+    func showHud() {
+        MBProgressHUD.showHUDAddedTo(self.view, animated: true)
     }
     
-    func newCityPresenter(presenter: NewCityPresenterProtocol,
-        didGetCities cities: [City]?,
-        forString string: String,
-        error: NSError?) {
+    func hideHud() {
+        MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
+    }
+    
+    func reloadView() {
+        self.searchField.text = nil
+        self.cities = [City]()
+        self.tableView.reloadData()
+    }
+    
+    func showCities(cities: [City]?) {
+        self.cities = [City]()
         
-            self.cities = [City]()
-            
-            if let newCities = cities where error == nil {
-                self.cities = newCities
-            }
-            
-            self.tableView.reloadData()
+        if let newCities = cities {
+            self.cities = newCities
+        }
+        
+        self.tableView.reloadData()
     }
 }
 
@@ -133,8 +130,7 @@ extension NewCityViewController: UITableViewDelegate {
             let city = cities[indexPath.row]
             if city.alreadyAdded { return }
             
-            MBProgressHUD.showHUDAddedTo(self.view, animated: true)
-            mPresenter.addCityForWeatherList(city)
+            presenter.addCityForWeatherList(city)
         }
     }
     

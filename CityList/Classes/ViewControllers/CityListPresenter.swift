@@ -15,42 +15,42 @@ class CityListPresenter: CityListPresenterProtocol {
         self.cityProvider.deleteCity(city) { [weak self] (result, error, success) -> Void in
             if let weakself = self {
                 if success && error == nil {
-                    weakself.delegate?.cityListPresenter(weakself, didGetAllCities: result, error: nil)
-                } else {
-                    weakself.delegate?.cityListPresenter(weakself, didGetAllCities: nil, error: error)
+                    weakself.getAllCities()
                 }
             }
         }
     }
     
-    func getAllCities() {
+    private func getAllCities() {
         if delegate == nil { return }
         
         self.cityProvider.getAllCities { [weak self] (result, error, success) -> Void in
             if let weakself = self {
                 if success && error == nil {
-                    weakself.delegate?.cityListPresenter(weakself, didGetAllCities: result, error: nil)
-                } else {
-                    weakself.delegate?.cityListPresenter(weakself, didGetAllCities: nil, error: error)
+                    weakself.delegate?.showCities(result)
                 }
             }
         }
     }
     
-    func refreshWeatherData() {
+    func reloadCities() {
         if delegate == nil { return }
         
         self.cityProvider.getAllCities { [weak self] (result, error, success) -> Void in
             if let citiesToFetch = result, weakself = self where success && error == nil && citiesToFetch.count > 0 {
                 weakself.openWeatherProvider.weatherForCities(citiesToFetch) {
                     (result, error, success) -> Void in
-                    weakself.delegate?.cityListPresenter(weakself, didRefreshWeatherData: result, error: error)
+                    var newCities = citiesToFetch
+                    if let citiesWithWeather = result {
+                        weakself.updateWeather(forCities: &newCities, withWeatherFromCities: citiesWithWeather)
+                        weakself.delegate?.showCities(citiesToFetch)
+                    }
                 }
             }
         }
     }
     
-    func updateWeather(inout forCities cities: [City], withWeatherFromCities weatherCities: [City]) {
+    private func updateWeather(inout forCities cities: [City], withWeatherFromCities weatherCities: [City]) {
         for city in cities {
             if let i = weatherCities.indexOf({$0.openWeatherId == city.openWeatherId}) {
                 let filteredCity = weatherCities[i]
@@ -63,6 +63,7 @@ class CityListPresenter: CityListPresenterProtocol {
     
     func attach(delegate: CityListPresenterDelegate?) {
         self.delegate = delegate
+        self.reloadCities()
     }
     
 }

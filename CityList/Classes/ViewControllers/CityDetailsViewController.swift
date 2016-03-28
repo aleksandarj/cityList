@@ -3,15 +3,13 @@ import UIKit
 
 class CityDetailsViewController: BaseViewController {
     
-    private var city: City
     private var mPresenter: CityDetailsPresenterProtocol
     
     private let temperatureLabel = UILabel()
     private let humidityLabel = UILabel()
     private let descriptionLabel = UILabel()
 
-    required init(city: City, presenter: CityDetailsPresenterProtocol) {
-        self.city = city
+    required init(presenter: CityDetailsPresenterProtocol) {
         mPresenter = presenter
         
         super.init(nibName: nil, bundle: nil)
@@ -30,7 +28,6 @@ class CityDetailsViewController: BaseViewController {
         super.viewWillAppear(animated)
         
         mPresenter.attach(self)
-        mPresenter.getWeatherDetails(city)
     }
     
     override func viewDidDisappear(animated: Bool) {
@@ -42,33 +39,28 @@ class CityDetailsViewController: BaseViewController {
     private func setupViews() {
         self.view.backgroundColor = UIColor.whiteColor()
         
-        setupNavigationBar()
         setupLabels()
-        updateForCity(city)
     }
     
-    private func setupNavigationBar() {
-        self.title = city.name ?? NSLocalizedString("City Details", comment: "")
-    }
     
     func updateForCity(newCity: City) {
-        self.city = newCity
+        self.title = newCity.name ?? NSLocalizedString("City Details", comment: "")
         
-        if let temperature = city.currentTemperature {
+        if let temperature = newCity.currentTemperature {
             let tempText = String(temperature)
             temperatureLabel.text = "Temperature: \(tempText) C"
         } else {
             temperatureLabel.text = "Temperature: NaN"
         }
         
-        if let humidity = city.currentHumidity {
+        if let humidity = newCity.currentHumidity {
             let humidityText = String(humidity)
             humidityLabel.text = "Humidity: \(humidityText)"
         } else {
             humidityLabel.text = "Humidity: NaN"
         }
         
-        let desc = (city.weatherDescription ?? "")!
+        let desc = (newCity.weatherDescription ?? "")!
         descriptionLabel.text = "Description: \(desc)"
     }
     
@@ -104,13 +96,10 @@ class CityDetailsViewController: BaseViewController {
 
 extension CityDetailsViewController: CityDetailsPresenterDelegate {
     
-    func cityDetailsPresenter(presenter: CityDetailsPresenterProtocol,
-        didGetWeatherDetailsForCity city: City?,
-        error: NSError?) {
-        
-            if let newCity = city where error == nil {
-                updateForCity(newCity)
-            }
+    func showCity(city: City?) {
+        if let newCity = city {
+            updateForCity(newCity)
+        }
     }
     
 }

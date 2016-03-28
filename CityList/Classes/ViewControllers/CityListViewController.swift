@@ -4,14 +4,14 @@ import SVPullToRefresh
 
 class CityListViewController: BaseViewController {
     
-    private var mPresenter: CityListPresenterProtocol
+    private var presenter: CityListPresenterProtocol
     private var cities = [City]()
     
     private let cid = "cityCellIdentifier"
     private var tableView = UITableView()
     
     init(presenter: CityListPresenterProtocol) {
-        mPresenter = presenter
+        self.presenter = presenter
         
         super.init(nibName: nil, bundle: nil)
     }
@@ -29,17 +29,13 @@ class CityListViewController: BaseViewController {
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        mPresenter.attach(self)
-        mPresenter.getAllCities()
-        if cities.count > 0 {
-            mPresenter.refreshWeatherData()
-        }
+        self.presenter.attach(self)
     }
     
     override func viewDidDisappear(animated: Bool) {
         super.viewDidDisappear(animated)
         
-        mPresenter.attach(nil)
+        self.presenter.attach(nil)
     }
     
     private func setupViews() {
@@ -54,7 +50,7 @@ class CityListViewController: BaseViewController {
         tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: cid)
         tableView.addPullToRefreshWithActionHandler {[weak self] () -> Void in
             if let weakself = self {
-                weakself.mPresenter.refreshWeatherData()
+                weakself.presenter.reloadCities()
             }
         }
         
@@ -82,36 +78,13 @@ class CityListViewController: BaseViewController {
 
 extension CityListViewController: CityListPresenterDelegate {
     
-    func cityListPresenter(presenter: CityListPresenterProtocol,
-        didRemoveCity city: City,
-        error: NSError?) {
-        
-            if error == nil {
-                mPresenter.getAllCities()
-            }
-    }
-    
-    func cityListPresenter(presenter: CityListPresenterProtocol,
-        didGetAllCities cities: [City]?,
-        error: NSError?)
-    {
-        if let newCities = cities where error == nil {
+    func showCities(cities: [City]?) {
+        if let newCities = cities {
             self.cities = newCities
             self.tableView.reloadData()
         }
     }
-    
-    func cityListPresenter(presenter: CityListPresenterProtocol,
-        didRefreshWeatherData cities: [City]?,
-        error: NSError?)
-    {
-        tableView.pullToRefreshView?.stopAnimating()
-        
-        if let newCities = cities where error == nil {
-            mPresenter.updateWeather(forCities: &self.cities, withWeatherFromCities: newCities)
-            self.tableView.reloadData()
-        }
-    }
+
 }
 
 extension CityListViewController: UITableViewDelegate {
@@ -135,7 +108,7 @@ extension CityListViewController: UITableViewDelegate {
             
             if (editingStyle == UITableViewCellEditingStyle.Delete) {
                 let city = cities[indexPath.row]
-                mPresenter.removeCity(city)
+                self.presenter.removeCity(city)
             }
     }
 }

@@ -38,14 +38,14 @@ class MainAssembly: NSObject {
     
     // City Details
     
-    func cityDetailsPresenter() -> CityDetailsPresenterProtocol {
-        let presenter = CityDetailsPresenter(openWeatherProvider: MainAssembly.sharedInstance.openWeatherRequestProvider())
+    func cityDetailsPresenter(city: City) -> CityDetailsPresenterProtocol {
+        let presenter = CityDetailsPresenter(openWeatherProvider: MainAssembly.sharedInstance.openWeatherRequestProvider(), city: city)
         return presenter
     }
     
     func cityDetailsViewController(city: City) -> CityDetailsViewController {
-        let presenter = MainAssembly.sharedInstance.cityDetailsPresenter()
-        let controller = CityDetailsViewController(city: city, presenter: presenter)
+        let presenter = MainAssembly.sharedInstance.cityDetailsPresenter(city)
+        let controller = CityDetailsViewController(presenter: presenter)
         return controller
     }
     

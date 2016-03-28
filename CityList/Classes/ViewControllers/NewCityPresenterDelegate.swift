@@ -2,12 +2,11 @@ import Foundation
 
 protocol NewCityPresenterDelegate {
     
-    func newCityPresenter(presenter: NewCityPresenterProtocol,
-        didGetCities cities: [City]?,
-        forString string: String,
-        error: NSError?)
+    func showCities(cities: [City]?)
     
-    func newCityPresenter(presenter: NewCityPresenterProtocol,
-        didAddCity city: City,
-        error: NSError?)
+    func reloadView()
+    
+    func showHud()
+    
+    func hideHud()
 }

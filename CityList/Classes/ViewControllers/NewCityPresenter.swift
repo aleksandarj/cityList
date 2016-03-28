@@ -17,7 +17,7 @@ class NewCityPresenter: NewCityPresenterProtocol {
         if delegate == nil { return }
         
         self.weatherOperation?.cancel()
-        self.weatherOperation = openWeatherProvider.weatherByName(string) { [weak self] (result, error, success) -> Void in
+        self.weatherOperation = openWeatherProvider.citiesWithWeatherByName(string) { [weak self] (result, error, success) -> Void in
             if let weakself = self {
                 if var newCities = result where success && error == nil {
                     weakself.cityProvider.getAllCities({ (result, error, success) -> Void in
@@ -29,10 +29,10 @@ class NewCityPresenter: NewCityPresenterProtocol {
                             }
                         }
                         
-                        weakself.delegate?.newCityPresenter(weakself, didGetCities: newCities, forString: string, error: nil)
+                        weakself.delegate?.showCities(newCities)
                     })
                 } else {
-                    weakself.delegate?.newCityPresenter(weakself, didGetCities: nil, forString: string, error: error)
+                    weakself.delegate?.showCities(nil)
                 }
             }
         }
@@ -40,12 +40,13 @@ class NewCityPresenter: NewCityPresenterProtocol {
     }
     
     func addCityForWeatherList(city: City) {
+        self.delegate?.showHud()
+        
         cityProvider.addCity(city) { [weak self] (result, error, success) -> Void in
             if let weakself = self {
+                weakself.delegate?.hideHud()
                 if let cities = result where success && error == nil && cities.count > 0 {
-                    weakself.delegate?.newCityPresenter(weakself, didAddCity: cities[0], error: nil)
-                } else {
-                    weakself.delegate?.newCityPresenter(weakself, didAddCity: city, error: error)
+                    weakself.delegate?.reloadView()
                 }
             }
         }
