@@ -24,6 +24,8 @@ class CityListPresenter: CityListPresenterProtocol {
     }
     
     func getAllCities() {
+        if delegate == nil { return }
+        
         self.cityProvider.getAllCities { [weak self] (result, error, success) -> Void in
             if let weakself = self {
                 if success && error == nil {
@@ -36,6 +38,8 @@ class CityListPresenter: CityListPresenterProtocol {
     }
     
     func refreshWeatherData() {
+        if delegate == nil { return }
+        
         self.cityProvider.getAllCities { [weak self] (result, error, success) -> Void in
             if let citiesToFetch = result, weakself = self where success && error == nil && citiesToFetch.count > 0 {
                 weakself.openWeatherProvider.weatherForCities(citiesToFetch) {

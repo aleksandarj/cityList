@@ -14,6 +14,8 @@ class NewCityPresenter: NewCityPresenterProtocol {
     }
     
     func getCitiesForString(string: String) {
+        if delegate == nil { return }
+        
         self.weatherOperation?.cancel()
         self.weatherOperation = openWeatherProvider.weatherByName(string) { [weak self] (result, error, success) -> Void in
             if let weakself = self {

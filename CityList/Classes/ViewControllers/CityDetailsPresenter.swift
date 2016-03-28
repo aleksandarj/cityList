@@ -10,6 +10,8 @@ class CityDetailsPresenter: CityDetailsPresenterProtocol {
     }
     
     func getWeatherDetails(city: City) {
+        if delegate == nil { return }
+        
         openWeatherProvider.weatherForCities([city]) {
             [weak self](result, error, success) -> Void in
             
