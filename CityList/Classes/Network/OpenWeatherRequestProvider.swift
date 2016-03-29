@@ -1,7 +1,7 @@
 import Foundation
 import AFNetworking
 
-class OpenWeatherRequestProvider: OpenWeatherRequestProviderProtocol {
+class OpenWeatherRequestProvider: WeatherRequestProvider {
     
     private let networkDatasource: NetworkDatasource
     

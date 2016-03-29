@@ -3,14 +3,14 @@ import MBProgressHUD
 
 class NewCityViewController: BaseViewController {
     
-    private var presenter: NewCityPresenterProtocol
+    private var presenter: NewCityPresenter
     private var cities = [City]()
     
     private let cid = "cityCellIdentifier"
     private var tableView = UITableView()
     private var searchField = UITextField()
     
-    init(presenter: NewCityPresenterProtocol) {
+    init(presenter: NewCityPresenter) {
         self.presenter = presenter
         
         super.init(nibName: nil, bundle: nil)
@@ -85,7 +85,7 @@ class NewCityViewController: BaseViewController {
     }
 }
 
-extension NewCityViewController: NewCityPresenterDelegate {
+extension NewCityViewController: NewCityView {
     
     func showHud() {
         MBProgressHUD.showHUDAddedTo(self.view, animated: true)
@@ -95,10 +95,8 @@ extension NewCityViewController: NewCityPresenterDelegate {
         MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
     }
     
-    func reloadView() {
+    func resetSearchField() {
         self.searchField.text = nil
-        self.cities = [City]()
-        self.tableView.reloadData()
     }
     
     func showCities(cities: [City]?) {

@@ -1,6 +1,6 @@
 import Foundation
 
-protocol CityListPresenterDelegate {
+protocol CityListView {
     
     func showCities( cities: [City]?)
     

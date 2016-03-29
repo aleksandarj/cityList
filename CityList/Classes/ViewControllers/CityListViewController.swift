@@ -4,13 +4,13 @@ import SVPullToRefresh
 
 class CityListViewController: BaseViewController {
     
-    private var presenter: CityListPresenterProtocol
+    private var presenter: CityListPresenter
     private var cities = [City]()
     
     private let cid = "cityCellIdentifier"
     private var tableView = UITableView()
     
-    init(presenter: CityListPresenterProtocol) {
+    init(presenter: CityListPresenter) {
         self.presenter = presenter
         
         super.init(nibName: nil, bundle: nil)
@@ -76,7 +76,7 @@ class CityListViewController: BaseViewController {
     }
 }
 
-extension CityListViewController: CityListPresenterDelegate {
+extension CityListViewController: CityListView {
     
     func showCities(cities: [City]?) {
         if let newCities = cities {

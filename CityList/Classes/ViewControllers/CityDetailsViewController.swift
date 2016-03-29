@@ -3,13 +3,13 @@ import UIKit
 
 class CityDetailsViewController: BaseViewController {
     
-    private var mPresenter: CityDetailsPresenterProtocol
+    private var mPresenter: CityDetailsPresenter
     
     private let temperatureLabel = UILabel()
     private let humidityLabel = UILabel()
     private let descriptionLabel = UILabel()
 
-    required init(presenter: CityDetailsPresenterProtocol) {
+    required init(presenter: CityDetailsPresenter) {
         mPresenter = presenter
         
         super.init(nibName: nil, bundle: nil)
@@ -42,28 +42,6 @@ class CityDetailsViewController: BaseViewController {
         setupLabels()
     }
     
-    
-    func updateForCity(newCity: City) {
-        self.title = newCity.name ?? NSLocalizedString("City Details", comment: "")
-        
-        if let temperature = newCity.currentTemperature {
-            let tempText = String(temperature)
-            temperatureLabel.text = "Temperature: \(tempText) C"
-        } else {
-            temperatureLabel.text = "Temperature: NaN"
-        }
-        
-        if let humidity = newCity.currentHumidity {
-            let humidityText = String(humidity)
-            humidityLabel.text = "Humidity: \(humidityText)"
-        } else {
-            humidityLabel.text = "Humidity: NaN"
-        }
-        
-        let desc = (newCity.weatherDescription ?? "")!
-        descriptionLabel.text = "Description: \(desc)"
-    }
-    
     private func setupLabels() {
         descriptionLabel.numberOfLines = 0
         
@@ -92,9 +70,30 @@ class CityDetailsViewController: BaseViewController {
             make.height.equalTo(44)
         }
     }
+    
+    private func updateForCity(newCity: City) {
+        self.title = newCity.name ?? NSLocalizedString("City Details", comment: "")
+        
+        if let temperature = newCity.currentTemperature {
+            let tempText = String(temperature)
+            temperatureLabel.text = "Temperature: \(tempText) C"
+        } else {
+            temperatureLabel.text = "Temperature: NaN"
+        }
+        
+        if let humidity = newCity.currentHumidity {
+            let humidityText = String(humidity)
+            humidityLabel.text = "Humidity: \(humidityText)"
+        } else {
+            humidityLabel.text = "Humidity: NaN"
+        }
+        
+        let desc = (newCity.weatherDescription ?? "")!
+        descriptionLabel.text = "Description: \(desc)"
+    }
 }
 
-extension CityDetailsViewController: CityDetailsPresenterDelegate {
+extension CityDetailsViewController: CityDetailsView {
     
     func showCity(city: City?) {
         if let newCity = city {

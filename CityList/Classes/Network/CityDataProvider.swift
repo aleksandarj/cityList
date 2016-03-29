@@ -2,7 +2,7 @@ import Foundation
 
 typealias CitiesResultBlock = (result: [City]?, error: NSError?, success: Bool) -> Void
 
-protocol CityDataProviderProtocol {
+protocol CityDataProvider {
     
     func getAllCities(completion: CitiesResultBlock)
     

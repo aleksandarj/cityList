@@ -1,6 +1,6 @@
 import Foundation
 
-protocol CityDetailsPresenterDelegate {
+protocol CityDetailsView {
     
     func showCity(city: City?)
     

@@ -1,6 +1,6 @@
 import Foundation
 
-class CityUserDefaultsProvider: CityDataProviderProtocol {
+class CityUserDefaultsProvider: CityDataProvider {
     
     private var defaults = NSUserDefaults.standardUserDefaults()
     

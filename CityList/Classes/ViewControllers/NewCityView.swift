@@ -1,10 +1,10 @@
 import Foundation
 
-protocol NewCityPresenterDelegate {
+protocol NewCityView {
     
     func showCities(cities: [City]?)
     
-    func reloadView()
+    func resetSearchField()
     
     func showHud()
     

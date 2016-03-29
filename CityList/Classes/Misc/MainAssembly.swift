@@ -14,20 +14,20 @@ class MainAssembly: NSObject {
         return NetworkDatasource.sharedInstance
     }
     
-    func openWeatherRequestProvider() -> OpenWeatherRequestProvider {
+    func weatherRequestProvider() -> WeatherRequestProvider {
         let openWeatherProvider = OpenWeatherRequestProvider(networkDatasource: MainAssembly.sharedInstance.networkDatasource())
         return openWeatherProvider
     }
     
-    func cityDataProvider() -> CityDataProviderProtocol {
+    func cityDataProvider() -> CityDataProvider {
         return CityUserDefaultsProvider()
     }
     
     // City List
     
-    func cityListPresenter() -> CityListPresenterProtocol {
-        let presenter = CityListPresenter(cityProvider: MainAssembly.sharedInstance.cityDataProvider(),
-            openWeatherProvider: MainAssembly.sharedInstance.openWeatherRequestProvider())
+    func cityListPresenter() -> CityListPresenter {
+        let presenter = CityListPresenterImpl(cityProvider: MainAssembly.sharedInstance.cityDataProvider(),
+            openWeatherProvider: MainAssembly.sharedInstance.weatherRequestProvider())
         return presenter
     }
     
@@ -38,8 +38,8 @@ class MainAssembly: NSObject {
     
     // City Details
     
-    func cityDetailsPresenter(city: City) -> CityDetailsPresenterProtocol {
-        let presenter = CityDetailsPresenter(openWeatherProvider: MainAssembly.sharedInstance.openWeatherRequestProvider(), city: city)
+    func cityDetailsPresenter(city: City) -> CityDetailsPresenter {
+        let presenter = CityDetailsPresenterImpl(openWeatherProvider: MainAssembly.sharedInstance.weatherRequestProvider(), city: city)
         return presenter
     }
     
@@ -51,10 +51,10 @@ class MainAssembly: NSObject {
     
     // New City
     
-    func newCityPresenter() -> NewCityPresenterProtocol {
+    func newCityPresenter() -> NewCityPresenter {
         let cityDataProvider = MainAssembly.sharedInstance.cityDataProvider()
-        let openWeatherProvider = MainAssembly.sharedInstance.openWeatherRequestProvider()
-        let presenter = NewCityPresenter(cityProvider: cityDataProvider, openWeatherProvider: openWeatherProvider)
+        let openWeatherProvider = MainAssembly.sharedInstance.weatherRequestProvider()
+        let presenter = NewCityPresenterImpl(cityProvider: cityDataProvider, openWeatherProvider: openWeatherProvider)
         return presenter
     }
     
