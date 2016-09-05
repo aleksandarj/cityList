@@ -6,4 +6,7 @@ protocol CityListPresenter {
     func reloadCities()
     func attach(view: CityListView?)
     
+    // commit 1
+    
+    // commit 2
 }
