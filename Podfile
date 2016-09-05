@@ -7,8 +7,14 @@ use_frameworks!
 
 xcodeproj 'CityList.xcodeproj'
 
+def myPods
 pod 'AFNetworking', '= 2.6.0'
 pod 'SnapKit'
 pod 'SVPullToRefresh'
 pod 'MBProgressHUD'
 pod 'SDWebImage'
+end
+
+target 'CityList' do
+    myPods
+end
