@@ -7,7 +7,7 @@ node('macos-workers') {
             doGenerateSubmoduleConfigurations: false, 
             extensions: [], 
             submoduleCfg: [], 
-            userRemoteConfigs: [credentialsId:'', url: 'https://github.com/aleksandarj/cityList.git']])
+            userRemoteConfigs: [[credentialsId:'/$githubToken', url: 'https://github.com/aleksandarj/cityList.git']]])
     }
     stage('Environment/Bundles Setup') {
         sh "Scripts/change_server.sh $server"
