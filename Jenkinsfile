@@ -3,10 +3,10 @@ node('macos-workers') {
  	sh 'echo HelloWorld'
 
  	environment {
- 		PATH = '${env.HOME}/.fastlane/bin:$PATH'
-		LC_ALL = 'en_US.UTF-8'
-		LANG = 'en_US.UTF-8'
-		PATH = '/usr/local/bin:$PATH'
+ 		env.PATH = '${env.HOME}/.fastlane/bin:${env.PATH}'
+		env.LC_ALL = 'en_US.UTF-8'
+		env.LANG = 'en_US.UTF-8'
+		env.PATH = '/usr/local/bin:${env.PATH}'
  	}
 
  	stage('Checkout') {
