@@ -37,8 +37,8 @@
 .Trashes
 ehthumbs.db
 Thumbs.db
-./Pods
-Pods
+#./Pods
+#Pods
 # Carthage #
 ############
-Carthage/
+#Carthage/
