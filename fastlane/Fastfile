@@ -32,4 +32,27 @@ platform :ios do
       output_name: "fastlane_jenkins.ipa",
     )
   end
+
+  lane :clean_xcode do |options|
+    clear_derived_data()
+    sh("rm -rf ProjectName*zip")
+    sh("rm -rf ~/Library/Developer/Xcode/Archives/*")
+  end
+
+  lane :code_sign do |options|
+    method = "development"
+    match(readonly: true, type: method)
+  end
+
+  lane :create_build do |options|
+    scheme = "CityList"
+    configuration = "Development"
+    export_method = "development"
+    icloud_environment = "Development"
+  
+    gym(scheme: scheme,
+      configuration: configuration,
+      export_options:export_options,
+      output_name:"ProjectName.ipa")
+end
 end
