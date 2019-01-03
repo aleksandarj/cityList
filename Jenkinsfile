@@ -1,3 +1,6 @@
-node {
- sh ‘echo HelloWorld’
+agent {
+	node {
+ 		sh 'echo HelloWorld'
+ 		label 'macos-workers'
+	}
 }
