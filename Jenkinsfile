@@ -3,7 +3,7 @@ node('macos-workers') {
  	sh 'echo HelloWorld'
 
  	environment {
- 		PATH = '$HOME/.fastlane/bin:$PATH'
+ 		PATH = '${env.HOME}/.fastlane/bin:$PATH'
 		LC_ALL = 'en_US.UTF-8'
 		LANG = 'en_US.UTF-8'
 		PATH = '/usr/local/bin:$PATH'
