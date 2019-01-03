@@ -34,6 +34,14 @@ DEPENDENCIES:
   - SnapKit (= 0.22.0)
   - SVPullToRefresh
 
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - AFNetworking
+    - MBProgressHUD
+    - SDWebImage
+    - SnapKit
+    - SVPullToRefresh
+
 SPEC CHECKSUMS:
   AFNetworking: 79f7eb1a0fcfa7beb409332b2ca49afe9ce53b05
   MBProgressHUD: 4890f671c94e8a0f3cf959aa731e9de2f036d71a
@@ -43,4 +51,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: a432a4f22bf1c058499a77f7796a81176fc90ea0
 
-COCOAPODS: 1.2.0
+COCOAPODS: 1.5.3
