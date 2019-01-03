@@ -12,22 +12,22 @@ class ErrorManager: NSObject {
     let reachabilityManager = AFNetworkReachabilityManager(forDomain: "www.google.com")
     
     private var noInternetAlert = AlertFactory.okAlert(
-        NSLocalizedString("No Internet Connection", comment: ""))
+        message: NSLocalizedString("No Internet Connection", comment: ""))
     
     override init() {
         super.init()
         
-        reachabilityManager.setReachabilityStatusChangeBlock { (status) -> Void in
-            if status == .NotReachable {
+        reachabilityManager.setReachabilityStatusChange { (status) -> Void in
+            if status == .notReachable {
                 self.noInternetAlert.show()
             } else {
-                self.noInternetAlert.dismissWithClickedButtonIndex(0, animated: true)
+                self.noInternetAlert.dismiss(withClickedButtonIndex: 0, animated: true)
             }
         }
         reachabilityManager.startMonitoring()
     }
     
-    func handleError(error: NSError, responseObject: AnyObject?, operationResponse: NSHTTPURLResponse!) {
+    func handleError(error: NSError, responseObject: AnyObject?, operationResponse: HTTPURLResponse!) {
         if operationResponse == nil {
             return
         }

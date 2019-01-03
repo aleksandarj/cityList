@@ -12,7 +12,7 @@ class CityListPresenterImpl: CityListPresenter {
     }
     
     func removeCity(city: City) {
-        self.cityProvider.deleteCity(city) { [weak self] (result, error, success) -> Void in
+        self.cityProvider.deleteCity(aCity: city) { [weak self] (result, error, success) -> Void in
             if let weakself = self {
                 if success && error == nil {
                     weakself.getAllCities()
@@ -27,7 +27,7 @@ class CityListPresenterImpl: CityListPresenter {
         self.cityProvider.getAllCities { [weak self] (result, error, success) -> Void in
             if let weakself = self {
                 if success && error == nil {
-                    weakself.view?.showCities(result)
+                    weakself.view?.showCities(cities: result)
                 }
             }
         }
@@ -37,22 +37,22 @@ class CityListPresenterImpl: CityListPresenter {
         if view == nil { return }
         
         self.cityProvider.getAllCities { [weak self] (result, error, success) -> Void in
-            if let citiesToFetch = result, weakself = self where success && error == nil && citiesToFetch.count > 0 {
-                weakself.openWeatherProvider.weatherForCities(citiesToFetch) {
-                    (result, error, success) -> Void in
-                    var newCities = citiesToFetch
-                    if let citiesWithWeather = result {
-                        weakself.updateWeather(forCities: &newCities, withWeatherFromCities: citiesWithWeather)
-                        weakself.view?.showCities(citiesToFetch)
-                    }
-                }
+            if let citiesToFetch = result, let weakself = self, success && error == nil && citiesToFetch.count > 0 {
+//                weakself.openWeatherProvider.weatherForCities(citiesToFetch) {
+//                    (result, error, success) -> Void in
+//                    var newCities = citiesToFetch
+//                    if let citiesWithWeather = result {
+//                        weakself.updateWeather(forCities: &newCities, withWeatherFromCities: citiesWithWeather)
+//                        weakself.view?.showCities(cities: citiesToFetch)
+//                    }
+//                }
             }
         }
     }
     
-    private func updateWeather(inout forCities cities: [City], withWeatherFromCities weatherCities: [City]) {
+    private func updateWeather( forCities cities: inout [City], withWeatherFromCities weatherCities: [City]) {
         for city in cities {
-            if let i = weatherCities.indexOf({$0.openWeatherId == city.openWeatherId}) {
+            if let i = cities.index(where: {$0.openWeatherId == city.openWeatherId}) {
                 let filteredCity = weatherCities[i]
                 city.currentTemperature = filteredCity.currentTemperature
                 city.currentHumidity = filteredCity.currentHumidity

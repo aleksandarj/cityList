@@ -28,36 +28,36 @@ class City: NSObject, NSCoding {
             name: json[Constants.UserDefaults.name] as! String,
             currentTemperature: json[Constants.CityJson.main]![Constants.CityJson.temperature] as? Float,
             currentHumidity: json[Constants.CityJson.main]![Constants.CityJson.humidity] as? Float,
-            weatherDescription: json[Constants.CityJson.weather]![0][Constants.CityJson.description] as? String)
+            weatherDescription: (json[Constants.CityJson.weather] as! [[String: Any]])[0][Constants.CityJson.description] as? String)
     }
     
     required init(coder aDecoder: NSCoder) {
-        self.openWeatherId = aDecoder.decodeObjectForKey(Constants.UserDefaults.openWeatherId) as? String
-        self.name = aDecoder.decodeObjectForKey(Constants.UserDefaults.name) as? String
-        self.currentTemperature = aDecoder.decodeObjectForKey(Constants.UserDefaults.currentTemperature) as? Float
-        self.currentHumidity = aDecoder.decodeObjectForKey(Constants.UserDefaults.currentHumidity) as? Float
-        self.weatherDescription = aDecoder.decodeObjectForKey(Constants.UserDefaults.weatherDescription) as? String
+        self.openWeatherId = aDecoder.decodeObject(forKey: Constants.UserDefaults.openWeatherId) as? String
+        self.name = aDecoder.decodeObject(forKey: Constants.UserDefaults.name) as? String
+        self.currentTemperature = aDecoder.decodeObject(forKey: Constants.UserDefaults.currentTemperature) as? Float
+        self.currentHumidity = aDecoder.decodeObject(forKey: Constants.UserDefaults.currentHumidity) as? Float
+        self.weatherDescription = aDecoder.decodeObject(forKey: Constants.UserDefaults.weatherDescription) as? String
     }
     
-    func encodeWithCoder(aCoder: NSCoder) {
+    func encode(with aCoder: NSCoder) {
         if let anOpenWeatherId = openWeatherId as? AnyObject {
-            aCoder.encodeObject(anOpenWeatherId, forKey: Constants.UserDefaults.openWeatherId)
+            aCoder.encode(anOpenWeatherId, forKey: Constants.UserDefaults.openWeatherId)
         }
         
         if let aName = name as? AnyObject {
-            aCoder.encodeObject(aName, forKey: Constants.UserDefaults.name)
+            aCoder.encode(aName, forKey: Constants.UserDefaults.name)
         }
         
         if let aCurrentTemperature = currentTemperature {
-            aCoder.encodeObject(aCurrentTemperature, forKey: Constants.UserDefaults.currentTemperature)
+            aCoder.encode(aCurrentTemperature, forKey: Constants.UserDefaults.currentTemperature)
         }
         
         if let aCurrentHumidity = currentHumidity as? AnyObject {
-            aCoder.encodeObject(aCurrentHumidity, forKey: Constants.UserDefaults.currentHumidity)
+            aCoder.encode(aCurrentHumidity, forKey: Constants.UserDefaults.currentHumidity)
         }
         
         if let aWeatherDescription = weatherDescription as? AnyObject {
-            aCoder.encodeObject(aWeatherDescription, forKey: Constants.UserDefaults.weatherDescription)
+            aCoder.encode(aWeatherDescription, forKey: Constants.UserDefaults.weatherDescription)
         }
     }
 }

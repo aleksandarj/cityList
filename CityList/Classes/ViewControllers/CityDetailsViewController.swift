@@ -24,20 +24,20 @@ class CityDetailsViewController: BaseViewController {
         setupViews()
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        mPresenter.attach(self)
+        mPresenter.attach(view: self)
     }
     
-    override func viewDidDisappear(animated: Bool) {
+    override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         
-        mPresenter.attach(nil)
+        mPresenter.attach(view: nil)
     }
     
     private func setupViews() {
-        self.view.backgroundColor = UIColor.whiteColor()
+        self.view.backgroundColor = UIColor.white
         
         setupLabels()
     }
@@ -97,7 +97,7 @@ extension CityDetailsViewController: CityDetailsView {
     
     func showCity(city: City?) {
         if let newCity = city {
-            updateForCity(newCity)
+            updateForCity(newCity: newCity)
         }
     }
     

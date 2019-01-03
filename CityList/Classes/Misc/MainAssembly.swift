@@ -44,7 +44,7 @@ class MainAssembly: NSObject {
     }
     
     func cityDetailsViewController(city: City) -> CityDetailsViewController {
-        let presenter = MainAssembly.sharedInstance.cityDetailsPresenter(city)
+        let presenter = MainAssembly.sharedInstance.cityDetailsPresenter(city: city)
         let controller = CityDetailsViewController(presenter: presenter)
         return controller
     }

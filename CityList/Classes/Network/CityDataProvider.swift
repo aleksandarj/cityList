@@ -1,6 +1,6 @@
 import Foundation
 
-typealias CitiesResultBlock = (result: [City]?, error: NSError?, success: Bool) -> Void
+typealias CitiesResultBlock = (_ result: [City]?, _ error: NSError?, _ success: Bool) -> Void
 
 protocol CityDataProvider {
     

@@ -14,20 +14,20 @@ class CityDetailsPresenterImpl: CityDetailsPresenter {
     func getWeatherDetails(city: City) {
         if view == nil { return }
         
-        openWeatherProvider.weatherForCities([city]) {
-            [weak self](result, error, success) -> Void in
-            
-            if let weakself = self {
-                if let cities = result where success && error == nil && cities.count > 0 {
-                    weakself.view?.showCity(cities[0])
-                }
-            }
-        }
+//        openWeatherProvider.weatherForCities([city]) {
+//            [weak self](result, error, success) -> Void in
+//            
+//            if let weakself = self {
+//                if let cities = result, success && error == nil && cities.count > 0 {
+//                    weakself.view?.showCity(city: cities[0])
+//                }
+//            }
+//        }
     }
     
     func attach(view: CityDetailsView?) {
         self.view = view
-        self.getWeatherDetails(self.city)
+        self.getWeatherDetails(city: self.city)
     }
     
 }

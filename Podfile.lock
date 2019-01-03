@@ -24,14 +24,14 @@ PODS:
   - SDWebImage (4.4.3):
     - SDWebImage/Core (= 4.4.3)
   - SDWebImage/Core (4.4.3)
-  - SnapKit (0.22.0)
+  - SnapKit (4.0.1)
   - SVPullToRefresh (0.4.1)
 
 DEPENDENCIES:
   - AFNetworking (= 2.6.0)
   - MBProgressHUD
   - SDWebImage
-  - SnapKit (= 0.22.0)
+  - SnapKit (~> 4.0.0)
   - SVPullToRefresh
 
 SPEC REPOS:
@@ -46,9 +46,9 @@ SPEC CHECKSUMS:
   AFNetworking: 79f7eb1a0fcfa7beb409332b2ca49afe9ce53b05
   MBProgressHUD: e7baa36a220447d8aeb12769bf0585582f3866d9
   SDWebImage: c5594f1a19c48d526d321e548902b56b479cd508
-  SnapKit: 0dd2fd157330f1ea11fd84da13e6be8a7a22bae0
+  SnapKit: 0de968a9fec17499afa29683b05d0c775b6d1c29
   SVPullToRefresh: ba2e718695a43253d8bea6852d2960097dc15d8c
 
-PODFILE CHECKSUM: a432a4f22bf1c058499a77f7796a81176fc90ea0
+PODFILE CHECKSUM: 2cd1ca6cd2a96810df7c26e3bc5c603228089ffe
 
 COCOAPODS: 1.5.3

@@ -26,20 +26,20 @@ class CityListViewController: BaseViewController {
         setupViews()
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        self.presenter.attach(self)
+        self.presenter.attach(view: self)
     }
     
-    override func viewDidDisappear(animated: Bool) {
+    override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         
-        self.presenter.attach(nil)
+        self.presenter.attach(view: nil)
     }
     
     private func setupViews() {
-        self.view.backgroundColor = UIColor.whiteColor()
+        self.view.backgroundColor = UIColor.white
         setupNavigationBar()
         setupTableView()
     }
@@ -47,8 +47,8 @@ class CityListViewController: BaseViewController {
     private func setupTableView() {
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: cid)
-        tableView.addPullToRefreshWithActionHandler {[weak self] () -> Void in
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: cid)
+        tableView.addPullToRefresh {[weak self] () -> Void in
             if let weakself = self {
                 weakself.presenter.reloadCities()
             }
@@ -64,7 +64,7 @@ class CityListViewController: BaseViewController {
     private func setupNavigationBar() {
         self.title = NSLocalizedString("City List", comment: "")
         
-        let rightButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Add,
+        let rightButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.add,
             target: self,
             action: Selector("onRightBarButton"))
         self.navigationItem.rightBarButtonItem = rightButton
@@ -89,16 +89,16 @@ extension CityListViewController: CityListView {
 
 extension CityListViewController: UITableViewDelegate {
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: IndexPath) {
         if indexPath.row < cities.count {
             let city = cities[indexPath.row]
             
-            let cityDetails = MainAssembly.sharedInstance.cityDetailsViewController(city)
+            let cityDetails = MainAssembly.sharedInstance.cityDetailsViewController(city: city)
             self.navigationController?.pushViewController(cityDetails, animated: true)
         }
     }
     
-    func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+    func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: IndexPath) -> Bool {
         return true
     }
     
@@ -106,9 +106,9 @@ extension CityListViewController: UITableViewDelegate {
         commitEditingStyle editingStyle: UITableViewCellEditingStyle,
         forRowAtIndexPath indexPath: NSIndexPath) {
             
-            if (editingStyle == UITableViewCellEditingStyle.Delete) {
+        if (editingStyle == UITableViewCellEditingStyle.delete) {
                 let city = cities[indexPath.row]
-                self.presenter.removeCity(city)
+            self.presenter.removeCity(city: city)
             }
     }
 }
@@ -117,22 +117,22 @@ extension CityListViewController: UITableViewDataSource {
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         if self.cities.count > 0 {
-            TableViewHelpers.setRowsHidden(false, tableView: tableView, text: "")
+            TableViewHelpers.setRowsHidden(rowsHidden: false, tableView: tableView, text: "")
             return 1
         } else {
-            TableViewHelpers.setRowsHidden(true,
+            TableViewHelpers.setRowsHidden(rowsHidden: true,
                 tableView: tableView,
                 text: NSLocalizedString("No cities added\nadd cities by pressing on\nthe top plus button", comment: ""))
             return 0
         }
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.cities.count
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(cid)
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: cid)
         let city = cities[indexPath.row]
         
         if let name = city.name {

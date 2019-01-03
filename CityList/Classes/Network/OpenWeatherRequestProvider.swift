@@ -2,14 +2,13 @@ import Foundation
 import AFNetworking
 
 class OpenWeatherRequestProvider: WeatherRequestProvider {
-    
     private let networkDatasource: NetworkDatasource
     
     required init(networkDatasource: NetworkDatasource) {
         self.networkDatasource = networkDatasource
     }
     
-    func weatherForCities(var cities: [City], callback: CitiesResultBlock) -> AFHTTPRequestOperation? {
+    func weatherForCities(_ cities: inout [City], callback: ([City]?, NSError?, Bool) -> Void) -> AFHTTPRequestOperation? {
         if cities.count > 0 {
             var ids = cities[0].openWeatherId!
             cities.removeFirst()
@@ -18,9 +17,9 @@ class OpenWeatherRequestProvider: WeatherRequestProvider {
             }
         
             let endpoint = String(format: Constants.Network.weatherForCities, arguments: [ids])
-            let url = networkDatasource.addAppIdToUrlString(endpoint)
+            let url = networkDatasource.addAppIdToUrlString(urlString: endpoint)
             
-            return networkDatasource.GET(url,
+            return networkDatasource.GET(endpoint: url,
                 parameters: nil,
                 success: { (operation, responseObject) -> () in
                     if let responseObject = responseObject[Constants.CityJson.list] as? [[String : AnyObject]] {
@@ -31,21 +30,21 @@ class OpenWeatherRequestProvider: WeatherRequestProvider {
                             cities.append(city)
                         }
                         
-                        callback(result: cities, error: nil, success: true)
+//                        callback(cities, nil, true)
                     } else if let responseObject = responseObject as? [String : AnyObject] {
                         var cities = [City]()
                         let city = City(json: responseObject)
                         cities.append(city)
                         
-                        callback(result: cities, error: nil, success: true)
+//                        callback(cities, nil, true)
                     }
                 },
                 failure: { (operation, error) -> () in
-                    callback(result: nil, error: error, success: false)
+//                    callback(nil, error as! NSError, false)
             })
         }
         
-        callback(result: nil, error: nil, success: false)
+        callback(nil, nil, false)
         
         return nil
     }
@@ -56,18 +55,18 @@ class OpenWeatherRequestProvider: WeatherRequestProvider {
         return String(text.characters.filter {okayChars.contains($0) })
     }
     
-    func citiesWithWeatherByName(cityName: String, callback: CitiesResultBlock) -> AFHTTPRequestOperation? {
+    func citiesWithWeatherByName(cityName: String, callback: ([City]?, NSError?, Bool) -> Void) -> AFHTTPRequestOperation? {
 //        let encodedName = name.stringByAddingPercentEncodingWithAllowedCharacters(.URLHostAllowedCharacterSet())
         // for some reason open weather doesn't accept white spaces even when encoded with url encoding (%20 used)
         // just in case i trimm the search keyword from all the special characters
 
-        let trimmedName = removeSpecialCharsFromString(cityName)
+        let trimmedName = removeSpecialCharsFromString(text: cityName)
         
         if trimmedName.characters.count > 2 {
             let endpoint = String(format: Constants.Network.find, arguments: [trimmedName])
-            let url = networkDatasource.addAppIdToUrlString(endpoint)
+            let url = networkDatasource.addAppIdToUrlString(urlString: endpoint)
             
-            return networkDatasource.GET(url,
+            return networkDatasource.GET(endpoint: url,
                 parameters: nil,
                 success: { (operation, responseObject) -> () in
                     if let responseObject = responseObject[Constants.CityJson.list] as? [[String : AnyObject]] {
@@ -79,21 +78,21 @@ class OpenWeatherRequestProvider: WeatherRequestProvider {
                             cities.append(city)
                         }
                         
-                        callback(result: cities, error: nil, success: true)
+//                        callback(result: cities, error: nil, success: true)
                     } else if let responseObject = responseObject as? [String : AnyObject] {
                         var cities = [City]()
                         let city = City(json: responseObject)
                         cities.append(city)
                         
-                        callback(result: cities, error: nil, success: true)
+//                        callback(result: cities, error: nil, success: true)
                     }
                 },
                 failure: { (operation, error) -> () in
-                    callback(result: nil, error: error, success: false)
+//                    callback(nil, error as! NSError, false)
             })
         }
         
-        callback(result: nil, error: nil, success: false)
+        callback(nil, nil, false)
         
         return nil
     }

@@ -17,22 +17,22 @@ class NewCityPresenterImpl: NewCityPresenter {
         if view == nil { return }
         
         self.weatherOperation?.cancel()
-        self.weatherOperation = openWeatherProvider.citiesWithWeatherByName(string) { [weak self] (result, error, success) -> Void in
+        self.weatherOperation = openWeatherProvider.citiesWithWeatherByName(cityName: string) { [weak self] (result, error, success) -> Void in
             if let weakself = self {
-                if var newCities = result where success && error == nil {
-                    weakself.cityProvider.getAllCities({ (result, error, success) -> Void in
-                        if let oldCities = result where success && error == nil {
+                if var newCities = result, success && error == nil {
+                    weakself.cityProvider.getAllCities(completion: { (result, error, success) -> Void in
+                        if let oldCities = result, success && error == nil {
                             for city in oldCities {
-                                if let i = newCities.indexOf({$0.openWeatherId == city.openWeatherId}) {
+                                if let i = newCities.index(where: {$0.openWeatherId == city.openWeatherId}) {
                                     newCities[i].alreadyAdded = true
                                 }
                             }
                         }
                         
-                        weakself.view?.showCities(newCities)
+                        weakself.view?.showCities(cities: newCities)
                     })
                 } else {
-                    weakself.view?.showCities(nil)
+                    weakself.view?.showCities(cities: nil)
                 }
             }
         }
@@ -42,12 +42,12 @@ class NewCityPresenterImpl: NewCityPresenter {
     func addCityForWeatherList(city: City) {
         self.view?.showHud()
         
-        cityProvider.addCity(city) { [weak self] (result, error, success) -> Void in
+        cityProvider.addCity(aCity: city) { [weak self] (result, error, success) -> Void in
             if let weakself = self {
                 weakself.view?.hideHud()
-                if let cities = result where success && error == nil && cities.count > 0 {
+                if let cities = result, success && error == nil && cities.count > 0 {
                     weakself.view?.resetSearchField()
-                    weakself.view?.showCities(nil)
+                    weakself.view?.showCities(cities: nil)
                 }
             }
         }
