@@ -16,8 +16,20 @@
 default_platform(:ios)
 
 platform :ios do
-  desc "Generate new localized screenshots"
-  lane :screenshots do
-    capture_screenshots(workspace: "CityList.xcworkspace", scheme: "CityList")
+#  desc "Generate new localized screenshots"
+#  lane :screenshots do
+#    capture_screenshots(workspace: "CityList.xcworkspace", scheme: "CityList")
+#  end
+
+  desc "Description of what the lane does"
+  lane :generate_ipa_develop do
+    build_ios_app(
+      configuration: "Debug",
+      scheme: "CityList",
+      clean: true,
+      export_method: 'development',
+      output_directory: "~/Desktop", # Destination directory. Defaults to current directory.
+      output_name: "fastlane_jenkins.ipa",
+    )
   end
 end
