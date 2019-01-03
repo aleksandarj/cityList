@@ -5,7 +5,7 @@ node('macos-workers') {
  	stage('Checkout') {
         checkout([$class: 'GitSCM', branches: [[name: '*/$branch']], 
             doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], 
-            userRemoteConfigs: [url: 'https://github.com/aleksandarj/cityList.git']])
+            userRemoteConfigs: [credentialsId:'/$githubToken', url: 'https://github.com/aleksandarj/cityList.git']])
     }
     stage('Environment/Bundles Setup') {
         sh "Scripts/change_server.sh $server"
