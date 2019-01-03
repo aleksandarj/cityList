@@ -2,12 +2,10 @@
 node('macos-workers') {
  	sh 'echo HelloWorld'
 
- 	environment {
- 		env.PATH = '${env.HOME}/.fastlane/bin:${env.PATH}'
-		env.LC_ALL = 'en_US.UTF-8'
-		env.LANG = 'en_US.UTF-8'
-		env.PATH = '/usr/local/bin:${env.PATH}'
- 	}
+ 	sh 'export PATH="$HOME/.fastlane/bin:$PATH"'
+	sh 'export LC_ALL=en_US.UTF-8'
+	sh 'export LANG=en_US.UTF-8'
+	sh 'export PATH=/usr/local/bin:$PATH'
 
  	stage('Checkout') {
         checkout([$class: 'GitSCM', branches: [[name: '*/$branch']], 
