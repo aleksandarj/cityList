@@ -9,9 +9,6 @@ node('macos-workers') {
             submoduleCfg: [], 
             userRemoteConfigs: [[credentialsId:'/$githubToken', url: 'https://github.com/aleksandarj/cityList.git']]])
     }
-    stage('Environment/Bundles Setup') {
-        sh "Scripts/change_server.sh $server"
-    }
     stage('Clean') {
         sh 'fastlane clean_xcode'
     }
