@@ -1,7 +1,6 @@
 
-node {
+node('macos-workers') {
  	sh 'echo HelloWorld'
- 	label 'macos-workers'
 
  	stage('Checkout') {
         checkout([$class: 'GitSCM', branches: [[name: '*/$branch']], 
