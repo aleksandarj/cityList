@@ -1,3 +1,8 @@
+env.PATH="${HOME}/.fastlane/bin:${PATH}"
+env.LC_ALL=en_US.UTF-8
+env.LANG=en_US.UTF-8
+env.PATH=/usr/local/bin:${PATH}
+
 pipeline {
 
   agent {
