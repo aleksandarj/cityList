@@ -7,10 +7,9 @@ pipeline {
   }
 
   environment {
-    PATH=sh(returnStdout: true, script: '${HOME}/.fastlane/bin:${PATH}')
+    PATH=sh(returnStdout: true, script: '${HOME}/.fastlane/bin:/usr/local/bin:${PATH}')
 	LC_ALL=sh(returnStdout: true, script: 'en_US.UTF-8')
 	LANG=sh(returnStdout: true, script: 'en_US.UTF-8')
-	PATH=sh(returnStdout: true, script: '/usr/local/bin:${PATH}')
   }
 
   
