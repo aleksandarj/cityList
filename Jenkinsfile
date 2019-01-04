@@ -22,8 +22,7 @@ pipeline {
 
     stage('Code Sign') {
     	steps {
-    		sh 'echo $HOME'
-    		sh 'echo $PATH'
+    		sh 'dos2unix script.sh'
         	sh 'fastlane codesign method:"development"'
     	}
     }
