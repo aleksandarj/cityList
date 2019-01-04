@@ -1,7 +1,7 @@
-env.PATH="${HOME}/.fastlane/bin:${PATH}"
+env.PATH="${env.HOME}/.fastlane/bin:${env.PATH}"
 env.LC_ALL="en_US.UTF-8"
 env.LANG="en_US.UTF-8"
-env.PATH="/usr/local/bin:${PATH}"
+env.PATH="/usr/local/bin:${env.PATH}"
 
 pipeline {
 
