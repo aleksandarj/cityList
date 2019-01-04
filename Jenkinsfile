@@ -35,16 +35,20 @@ pipeline {
     }
 
     stage('Code Sign') {
-        sh 'fastlane codesign method:"development"'
+    	steps {
+        	sh 'fastlane codesign method:"development"'
+    	}
     }
     
     stage('Create Build') {   
-        sh 'fastlane create_build'
+    	steps {
+        	sh 'fastlane create_build'
+        }
     }
   }
 
   post {
-    failure {
+    success {
       // notify users when the Pipeline fails
       mail to: 'aleksandar.jovchevski@webfactory.mk',
           subject: "Succeeded Pipeline: ${currentBuild.fullDisplayName}",
