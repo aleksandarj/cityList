@@ -1,7 +1,7 @@
 env.PATH="${HOME}/.fastlane/bin:${PATH}"
-env.LC_ALL=en_US.UTF-8
-env.LANG=en_US.UTF-8
-env.PATH=/usr/local/bin:${PATH}
+env.LC_ALL="en_US.UTF-8"
+env.LANG="en_US.UTF-8"
+env.PATH="/usr/local/bin:${PATH}"
 
 pipeline {
 
@@ -11,14 +11,7 @@ pipeline {
     }
   }
 
-  environment {
-    //Use Pipeline Utility Steps plugin to read information from pom.xml into env variables
-    PATH="$HOME/.fastlane/bin:$PATH"
-    LC_ALL=en_US.UTF-8
-    LANG=en_US.UTF-8
-    PATH=/usr/local/bin:$PATH
-  }
-
+  
   stages {
 
     stage('Checkout') {
