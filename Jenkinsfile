@@ -1,27 +1,62 @@
+pipeline {
 
-node('macos-workers') {
- 	sh 'echo HelloWorld'
-
- 	
-
- 	stage('Checkout') {
-        checkout([$class: 'GitSCM', branches: [[name: '*/$branch']], 
-            doGenerateSubmoduleConfigurations: false, 
-            extensions: [], 
-            submoduleCfg: [], 
-            userRemoteConfigs: [[credentialsId:'/$githubToken', url: 'https://github.com/aleksandarj/cityList.git']]])
+  agent {
+    node {
+      label 'macos-workers'
     }
-    stage('Clean') {
-	sh 'export LC_ALL=en_US.UTF-8'
-	sh 'export LANG=en_US.UTF-8'
-	sh 'export PATH=/usr/local/bin:$PATH'
-	sh 'export PATH="/Users/jenkins/.fastlane/bin:$PATH"'
-        sh 'fastlane clean_xcode'
+  }
+
+  environment {
+    //Use Pipeline Utility Steps plugin to read information from pom.xml into env variables
+    PATH="$HOME/.fastlane/bin:$PATH"
+    LC_ALL=en_US.UTF-8
+    LANG=en_US.UTF-8
+    PATH=/usr/local/bin:$PATH
+  }
+
+  stages {
+
+    stage('Checkout') {
+      steps {
+        checkout scm
+      }
     }
+
+    stage('Running Tests') {
+      steps {
+        parallel (
+          "Unit Tests": {
+            sh 'echo "Unit Tests"'
+            sh 'fastlane scan'
+          },
+          "UI Automation": {
+            sh 'echo "UI Automation"'
+          }
+        )
+      }
+    }
+
     stage('Code Sign') {
         sh 'fastlane codesign method:"development"'
     }
+    
     stage('Create Build') {   
         sh 'fastlane create_build'
     }
+  }
+
+  post {
+    failure {
+      // notify users when the Pipeline fails
+      mail to: 'aleksandar.jovchevski@webfactory.mk',
+          subject: "Succeeded Pipeline: ${currentBuild.fullDisplayName}",
+          body: "Build Ok ${env.BUILD_URL}"
+    }
+    failure {
+      // notify users when the Pipeline fails
+      mail to: 'aleksandar.jovchevski@webfactory.mk',
+          subject: "Failed Pipeline: ${currentBuild.fullDisplayName}",
+          body: "Something is wrong with ${env.BUILD_URL}"
+    }
+  }
 }
