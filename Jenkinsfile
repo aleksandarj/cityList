@@ -1,14 +1,16 @@
-env.PATH="${env.HOME}/.fastlane/bin:${env.PATH}"
-env.LC_ALL="en_US.UTF-8"
-env.LANG="en_US.UTF-8"
-env.PATH="/usr/local/bin:${env.PATH}"
-
 pipeline {
 
   agent {
     node {
       label 'macos-workers'
     }
+  }
+
+  environment {
+    PATH=sh(returnStdout: true, script: '${HOME}/.fastlane/bin:${PATH}')
+	LC_ALL=sh(returnStdout: true, script: 'en_US.UTF-8')
+	LANG=sh(returnStdout: true, script: 'en_US.UTF-8')
+	PATH=sh(returnStdout: true, script: '/usr/local/bin:${PATH}')
   }
 
   
