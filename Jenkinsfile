@@ -19,13 +19,6 @@ pipeline {
         checkout scm
       }
     }
-
-    stage('Code Sign') {
-    	steps {
-    		echo 'code sign'
-        	fastlane codesign method:"development"
-    	}
-    }
     
     stage('Create Build') {   
     	steps {
