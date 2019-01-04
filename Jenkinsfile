@@ -20,20 +20,6 @@ pipeline {
       }
     }
 
-    stage('Running Tests') {
-      steps {
-        parallel (
-          "Unit Tests": {
-            sh 'echo "Unit Tests"'
-            sh 'fastlane scan'
-          },
-          "UI Automation": {
-            sh 'echo "UI Automation"'
-          }
-        )
-      }
-    }
-
     stage('Code Sign') {
     	steps {
         	sh 'fastlane codesign method:"development"'
