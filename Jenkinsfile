@@ -22,15 +22,13 @@ pipeline {
 
     stage('Code Sign') {
     	steps {
-    		sh 'echo $HOME'
-    		sh 'echo $PATH'
-        	sh 'fastlane codesign method:"development"'
+        	echo 'fastlane codesign method:"development"'
     	}
     }
     
     stage('Create Build') {   
     	steps {
-        	sh 'fastlane create_build'
+        	fastlane create_build
         }
     }
   }
