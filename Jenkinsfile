@@ -22,7 +22,8 @@ pipeline {
 
     stage('Code Sign') {
     	steps {
-        	echo 'fastlane codesign method:"development"'
+    		echo 'code sign'
+        	fastlane codesign method:"development"
     	}
     }
     
